@@ -4,7 +4,7 @@ import random
 import threading
 import time
 
-TOKEN = "INSERT TOKEN HERE"
+TOKEN = "Paste token here"
 bot = telebot.TeleBot(TOKEN, parse_mode=None)
 
 game = {
@@ -29,6 +29,14 @@ with open("simple_words.txt", "r", encoding="utf-8") as f:
 
 with open("hard_words.txt", "r", encoding="utf-8") as f:
     hard_words = [line.strip().upper() for line in f if line.strip()]
+
+
+def main_menu():
+    markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
+    btn1 = types.KeyboardButton("✅ Почати нову гру")
+    btn2 = types.KeyboardButton("ℹ️ Правила")
+    markup.add(btn1, btn2)
+    return markup
 
 
 def start_button():
@@ -59,6 +67,27 @@ def next_round_button():
     return markup
 
 
+@bot.message_handler(func=lambda message: message.text == "✅ Почати нову гру")
+def handle_start_game(message):
+    start_game(message)
+
+
+@bot.message_handler(func=lambda message: message.text == "ℹ️ Правила")
+def send_rules(message):
+    rules = (
+        "📜 Правила гри 📜\n\n"
+        "1. Гра розрахована на 2 команди.\n"
+        "2. Кожна команда по черзі отримує слова для відгадування.\n"
+        "3. Спільнокореневі слова використовувати заборонено.\n"
+        "4. За кожне вгадане слово команда отримує 1 бал.\n"
+        "5. За кожне пропущене слово команда втрачає 1 бал.\n"
+        "6. Раунд триває 111 секунд.\n"
+        "7. Перемагає команда, яка першою набере 5 балів.\n\n"
+        "🍀 Удачі! 🍀"
+    )
+    bot.send_message(message.chat.id, rules)
+
+
 # Старт гри
 @bot.message_handler(commands=["start"])
 def start(message):
@@ -66,8 +95,8 @@ def start(message):
     game["chat_id"] = chat_id
     bot.send_message(
         chat_id,
-        "Вітаю в світі Еліасу! Натисніть кнопку нижче, щоб почати гру.",
-        reply_markup=start_button(),
+        "🎮 Головне меню 🎮",
+        reply_markup=main_menu(),
     )
 
 
@@ -160,10 +189,11 @@ def send_new_word():
     chat_id = game["chat_id"]
     bot.send_message(
         chat_id,
-        f"➡️ Раунд {game['round_number']}\n"
-        f"👥 Команда: {game['current_team']}\n\n"
+        f"➡️ Раунд <b>{game['round_number']}</b>\n"
+        f"👥 Команда: <b>{game['current_team']}</b>\n\n"
         f"⏱️ {game['time_left']} секунд ⏱️\n\n"
-        f"🔤 {game['current_word']} 🔤",
+        f"🔤 <b>{game['current_word']}</b> 🔤",
+        parse_mode="HTML",
         reply_markup=word_buttons(),
     )
 
