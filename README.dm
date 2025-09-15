@@ -21,16 +21,11 @@ This project is a Telegram bot for playing the classic Alias game in Ukrainian.
 ## Installation
 
 1. Install dependencies:
-    ```
     pip install -r requirements.txt
-    ```
-
 2. Find BotFather in Telegram and generate your bot token.
 3. Add your Telegram Bot Token to the `TOKEN` variable in [`bot.py`](bot.py).
 4. Run the bot:
-    ```
     python bot.py
-    ```
 
 ## Usage
 

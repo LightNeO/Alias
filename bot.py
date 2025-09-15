@@ -4,7 +4,7 @@ import random
 import threading
 import time
 
-TOKEN = "insert token here"
+TOKEN = "8295462536:AAGPgYHh9waOU88wrxxJvmTey6Z8VV7ruHE"
 bot = telebot.TeleBot(TOKEN, parse_mode=None)
 
 games = {}
