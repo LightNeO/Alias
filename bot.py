@@ -102,7 +102,7 @@ def start(message):
     bot.send_message(chat_id, "🎮 Головне меню 🎮", reply_markup=main_menu())
 
 
-# ✅ Універсальний старт гри
+# старт гри
 def start_game(chat_id):
     create_game(chat_id)
     bot.send_message(chat_id, "Гра починається! Введіть назву першої команди:")
